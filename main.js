@@ -1,12 +1,12 @@
 // DOM Elements
-const resultEl = document.getElementById('result');
-const lengthEl = document.getElementById('length');
-const uppercaseEl = document.getElementById('uppercase');
-const lowercaseEl = document.getElementById('lowercase');
-const numbersEl = document.getElementById('numbers');
-const symbolsEl = document.getElementById('symbols');
-const generateEl = document.getElementById('generate');
-const clipboardEl = document.getElementById('clipboard');
+const resultEl = document.getElementById("result");
+const lengthEl = document.getElementById("length");
+const uppercaseEl = document.getElementById("uppercase");
+const lowercaseEl = document.getElementById("lowercase");
+const numbersEl = document.getElementById("numbers");
+const symbolsEl = document.getElementById("symbols");
+const generateEl = document.getElementById("generate");
+const clipboardEl = document.getElementById("clipboard");
 
 const randomFunc = {
   lower: getRandomLower,
@@ -16,24 +16,29 @@ const randomFunc = {
 };
 // Generate Event Listen
 
-generateEl.addEventListener('click', () => {
+generateEl.addEventListener("click", () => {
   const length = +lengthEl.value; //+ ga pretvara u broj
   const hasLower = lowercaseEl.checked;
   const hasUppercase = uppercaseEl.checked;
   const hasNumber = numbersEl.checked;
   const hasSymbols = symbolsEl.checked;
 
-  resultEl.innerText = generatePassword(
-    hasLower,
-    hasUppercase,
-    hasNumber,
-    hasSymbols,
-    length
-  );
+  if (length > 20) {
+    return alert("Šifra ne može da ima više od 20 karaktera.");
+  } else {
+    resultEl.innerText = generatePassword(
+      hasLower,
+      hasUppercase,
+      hasNumber,
+      hasSymbols,
+      length
+    );
+  }
 });
+
 // Copy password to clipboard
-clipboardEl.addEventListener('click', () => {
-  const textarea = document.createElement('textarea');
+clipboardEl.addEventListener("click", () => {
+  const textarea = document.createElement("textarea");
   const password = resultEl.innerText;
 
   if (!password) {
@@ -42,14 +47,14 @@ clipboardEl.addEventListener('click', () => {
   textarea.value = password;
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   textarea.remove();
-  alert('Šifra kopirana u memoriju.');
+  alert("Šifra kopirana u memoriju.");
 });
 
 // Generate password function
 function generatePassword(lower, upper, number, symbol, length) {
-  let generatedPassword = '';
+  let generatedPassword = "";
 
   const typesCount = lower + upper + number + symbol;
 
@@ -62,7 +67,7 @@ function generatePassword(lower, upper, number, symbol, length) {
   //   console.log('typesArr:', typesArr);
 
   if (typesCount === 0) {
-    return '';
+    return "";
   }
 
   for (let i = 0; i < length; i += typesCount) {
@@ -92,6 +97,6 @@ function getRandomNumber() {
   return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
 }
 function getRandomSymbol() {
-  const symbols = '!@#$%^&*(){}<>,./';
+  const symbols = "!@#$%^&*(){}<>,./";
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
